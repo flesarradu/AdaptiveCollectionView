@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             ControlTemplate="{StaticResource AdaptiveProjectShoppingListViewTemplate}"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="AdaptiveCollectionView.AdaptiveSampleView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <DataTemplate x:Key="CollectionViewTemplate">
+                <Grid ColumnDefinitions="Auto,*" BackgroundColor="Red" HeightRequest="50" RowSpacing="16">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{TemplateBinding NavigateCommand}"/>
+                    </Grid.GestureRecognizers>
+                    <Label Grid.Column="0" Text="{Binding .}">
+
+                    </Label>
+                </Grid>
+            </DataTemplate>
+            
+
+            <ControlTemplate x:Key="AdaptiveProjectShoppingListViewTemplate">
+                <Grid x:Name="_parentGrid" VerticalOptions="FillAndExpand" Margin="0,16,0,0">
+
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup>
+                                <VisualState x:Name="Small">
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="0" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Property="Grid.RowDefinitions" TargetName="_parentGrid" Value="*,Auto" />
+                                        <Setter Property="Grid.Row" TargetName="_collectionView" Value="0" />
+                                        <Setter Property="Grid.Row" TargetName="_totalPriceStackLayout" Value="1" />
+                                        <Setter Property="StackLayout.HeightRequest" TargetName="_totalPriceStackLayout" Value="360" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Normal">
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="900" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Property="Grid.ColumnDefinitions" TargetName="_parentGrid" Value="*,Auto" />
+                                        <Setter Property="Grid.Column" TargetName="_collectionView" Value="0" />
+                                        <Setter Property="Grid.Column" TargetName="_totalPriceStackLayout" Value="1" />
+                                        <Setter Property="StackLayout.WidthRequest" TargetName="_totalPriceStackLayout" Value="360" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+
+
+                    <CollectionView x:Name="_collectionView" ItemsSource="{TemplateBinding CollectionItems}" 
+                                    ItemTemplate="{StaticResource CollectionViewTemplate}" />
+
+
+                    <!--<ScrollView x:Name="_collectionView">
+                      <VerticalStackLayout     BindableLayout.ItemTemplate="{StaticResource CollectionViewTemplate}"
+                                          BindableLayout.ItemsSource="{TemplateBinding CollectionItems}">
+                      </VerticalStackLayout>
+                     </ScrollView>-->
+
+                    <StackLayout  x:Name="_totalPriceStackLayout"
+                               VerticalOptions="FillAndExpand"
+                               BackgroundColor="LightGrey"
+                               Spacing="0">
+                    </StackLayout>
+
+                </Grid>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </ContentView.Resources>
+</ContentView>
